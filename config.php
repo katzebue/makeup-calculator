@@ -10,7 +10,7 @@ $calculatorParams = array(
 					'type' => 'radio',
 					'values' => array(
 						'static' => array (
-							'title' => 'Статический'
+							'title' => 'Статичный'
 						),
 						'rubber' => array (
 							'title' => 'Резиновый'
@@ -150,10 +150,10 @@ $calculatorParams = array(
 							'title' => 'По центру'
 						),
 						'left' => array (
-							'title' => 'По левому краю'
+							'title' => 'Слева'
 						),
 						'right' => array (
-							'title' => 'По правому краю'
+							'title' => 'Справа'
 						)
 					)
 				),
@@ -162,13 +162,13 @@ $calculatorParams = array(
 					'type' => 'radio',
 					'values' => array(
 						'top' => array (
-							'title' => 'По вехнему краю'
+							'title' => 'Сверху'
 						),
 						'middle' => array (
 							'title' => 'По середине'
 						),
 						'bottom' => array (
-							'title' => 'По нижнему краю'
+							'title' => 'Снизу'
 						)
 					)
 				),
@@ -265,7 +265,9 @@ $calculatorParams = array(
 					'price' => 200
 				)
 			)
-		),
+		)
+	),
+	'javascript' => array(
 		'total_js' => array(
 			'title' => 'JavaScript',
 			'params' => array(

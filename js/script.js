@@ -17,8 +17,6 @@ $(document).ready(function(){
 		var fieldName = $(this).attr('name');
 		var fieldValue = $(this).val();
 
-		$(this).parents('.control-group').find('.control-price').text($(this).val());
-
 		if (fieldName == 'html[layouts][type][value]') {
 			layoutType = fieldValue;
 		} else if (fieldName == 'html[layouts][type][coefficient]') {
@@ -28,6 +26,8 @@ $(document).ready(function(){
 	});
 
 	function updateHeadings() {
+		$('.span3 .table').empty();
+		$('.span3 .summary li:not(.nav-header)').remove();
 		layoutType = $('input[name="html[layouts][type][value]"]:checked').val();
 		layoutCoefficient = parseFloat($('input[name="html[layouts][type][coefficient]"]').val());
 		layoutQuality = parseFloat($('input[name="html[layouts][quality][value]"]').val());
@@ -41,150 +41,142 @@ $(document).ready(function(){
 
 		// layouts heading----------------------------------------------------------------------------------------------
 		var layoutTypeTitle = $.trim($('input[name="html[layouts][type][value]"]:checked').parent().text()) + " тип";
-		var layoutQualityTitle = '';
+
+		$('ul.summary').append('<li>' + layoutTypeTitle + '</li>');
 
 		if (layoutCoefficient != 1) {
-			layoutTypeTitle += " (x" + layoutCoefficient + " за сложность)";
+			$('ul.summary').append('<li>x' + layoutCoefficient + ' за сложность </li>');
 		}
 
 		if (layoutQualityPrice > 0) {
-			layoutQualityTitle = " +" + layoutQualityPrice + "руб./макет (за качество)";
+			$('ul.summary').append('<li>+' +layoutQualityPrice + 'руб./макет (за качество)</li>');
 		} else if (layoutQualityPrice < 0) {
-			layoutQualityTitle = " " + layoutQualityPrice + "руб./макет (за качество)";
+			$('ul.summary').append('<li>' + layoutQualityPrice + 'руб./макет (за качество)</li>');
 		}
-
-		$('.accordion-heading a[href="#collapse_layouts"] .agenda').text(layoutTypeTitle + " " + layoutQualityTitle);
 
 		// unique layouts heading---------------------------------------------------------------------------------------
 		var uniqueLayoutSectionPrice = 0;
-		var uniqueLayoutTitle = uniqueLayoutPrice + "руб./макет";
 		var uniqueLayoutTotalPrice = parseInt(uniqueLayoutPrice * uniqueLayoutCount);
-		var uniqueLayoutComplexBackground = 0;
-		var uniqueLayoutComplexPositioning = 0;
+
+		$('ul.summary').append('<li>' + uniqueLayoutPrice + 'руб./уникальный макет</li>');
 
 		if (uniqueLayoutCount > 0) {
-			uniqueLayoutTitle += " * " + uniqueLayoutCount + "шт. = " + uniqueLayoutTotalPrice + "руб.";
+			addTableCell('Уникальные макеты', uniqueLayoutCount + '*' + uniqueLayoutPrice + '=' + uniqueLayoutTotalPrice);
 			uniqueLayoutSectionPrice += uniqueLayoutTotalPrice;
 		}
 
-		if ($('input[name="html[unique_layouts][complex_background][value]"]').is(":checked")) {
-			uniqueLayoutComplexBackground = parseInt($('input[name="html[unique_layouts][complex_background][price]"]').val());
-			uniqueLayoutSectionPrice += uniqueLayoutComplexBackground;
-		}
-
-		if ($('input[name="html[unique_layouts][complex_positioning][value]"]').is(":checked")) {
-			uniqueLayoutComplexPositioning = parseInt($('input[name="html[unique_layouts][complex_positioning][price]"]').val());
-			uniqueLayoutSectionPrice += uniqueLayoutComplexPositioning;
-		}
-
-		$('.accordion-heading a[href="#collapse_unique_layouts"] .agenda').text(uniqueLayoutTitle);
-
-		if (uniqueLayoutSectionPrice > 0) {
-			$('.accordion-heading a[href="#collapse_unique_layouts"] .price').text(uniqueLayoutSectionPrice + "руб.");
-		} else {
-			$('.accordion-heading a[href="#collapse_unique_layouts"] .price').text("");
-		}
+		$('#tab_html_unique_layouts .control-group .controls .checkbox.inline input:checked').each(function(indx, element){
+			var title = $('.control-label[for="' + $(element).attr('id') + '"]').text();
+			var price = parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val());
+			if ($(element).is(".per_element")) {
+				price *= parseInt($('input[name="' + $(element).attr('id') + '[count]"]').val());
+			}
+			uniqueLayoutSectionPrice += price;
+			addTableCell(title, price);
+		});
 
 		// inner layouts heading----------------------------------------------------------------------------------------
 		var innerLayoutSectionPrice = 0;
-		var innerLayoutTitle = innerLayoutPrice + "руб./макет";
 		var innerLayoutTotalPrice = parseInt(innerLayoutPrice * innerLayoutCount);
 		var innerLayoutTabsCount = parseInt($('input[name="html[inner_layouts][inner_tabs][value]"]').val());
 		var innerLayoutTabsCoefficient = parseFloat($('input[name="html[inner_layouts][inner_tabs][coefficient]"]').val());
 		var innerLayoutTabsPrice = parseInt(innerLayoutTabsCoefficient * innerLayoutPrice);
 		var innerLayoutTabsTotalPrice = parseInt(innerLayoutTabsCount * innerLayoutTabsPrice);
-		var innerLayoutChangeGrid = 0;
+
+		$('ul.summary').append('<li>' + innerLayoutPrice + 'руб./внутренний макет</li>')
 
 		if (innerLayoutCount > 0) {
-			innerLayoutTitle += " * " + innerLayoutCount + "шт. = " + innerLayoutTotalPrice + "руб.";
+			addTableCell('Внутренние макеты', innerLayoutCount + '*' + innerLayoutPrice + '=' + innerLayoutTotalPrice);
 			innerLayoutSectionPrice += innerLayoutTotalPrice;
 		}
 
-		if ($('input[name="html[inner_layouts][change_grid][value]"]').is(":checked")) {
-			innerLayoutChangeGrid = parseInt($('input[name="html[inner_layouts][change_grid][price]"]').val());
-			innerLayoutSectionPrice += innerLayoutChangeGrid;
-		}
+		$('#tab_html_inner_layouts .control-group .controls .checkbox.inline input:checked').each(function(indx, element){
+			var title = $('.control-label[for="' + $(element).attr('id') + '"]').text();
+			var price = parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val());
+			if ($(element).is(".per_element")) {
+				price *= parseInt($('input[name="' + $(element).attr('id') + '[count]"]').val());
+			}
+			innerLayoutSectionPrice += price;
+			addTableCell(title, price);
+		});
 
 		if (innerLayoutTabsCount > 0) {
-			innerLayoutTitle += " " + innerLayoutTabsPrice + "руб./таб * " + innerLayoutTabsCount + "шт. = " + innerLayoutTabsTotalPrice + "руб.";
+			addTableCell('Внутренние табы', innerLayoutTabsCount + '*' + innerLayoutTabsPrice + '=' + innerLayoutTabsTotalPrice);
 			innerLayoutSectionPrice += innerLayoutTabsTotalPrice;
-		}
-
-		$('.accordion-heading a[href="#collapse_inner_layouts"] .agenda').text(innerLayoutTitle);
-
-		if (innerLayoutSectionPrice > 0) {
-			$('.accordion-heading a[href="#collapse_inner_layouts"] .price').text(innerLayoutSectionPrice + "руб.");
-		} else {
-			$('.accordion-heading a[href="#collapse_inner_layouts"] .price').text("");
 		}
 
 		// compatibility heading----------------------------------------------------------------------------------------
 		var compatibilitySectionPrice = 0;
 
-		$('#collapse_compatibility .control-group .controls .checkbox.inline input:checked').each(function(indx, element){
-			if ($(element).is(".per_layout")) {
-				compatibilitySectionPrice += parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val()) * (innerLayoutCount + uniqueLayoutCount);
-			} else {
-				compatibilitySectionPrice += parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val());
+		$('#tab_html_compatibility .control-group .controls .checkbox.inline input:checked').each(function(indx, element){
+			var title = $('.control-label[for="' + $(element).attr('id') + '"]').text();
+			var price = parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val());
+			if ($(element).is(".per_element")) {
+				price *= parseInt($('input[name="' + $(element).attr('id') + '[count]"]').val());
+			} else if ($(element).is(".per_layout")) {
+				price *= innerLayoutCount + uniqueLayoutCount;
 			}
+			compatibilitySectionPrice += price;
+			addTableCell(title, price);
 		});
-
-		if (compatibilitySectionPrice > 0) {
-			$('.accordion-heading a[href="#collapse_compatibility"] .price').text(compatibilitySectionPrice + "руб.");
-		} else {
-			$('.accordion-heading a[href="#collapse_compatibility"] .price').text("");
-		}
 
 		// other params heading-----------------------------------------------------------------------------------------
 		var otherParamsSectionPrice = 0;
 
-		$('#collapse_other_params .control-group .controls .checkbox.inline input:checked').each(function(indx, element){
+		$('#tab_html_other_params .control-group .controls .checkbox.inline input:checked').each(function(indx, element){
+			var title = $('.control-label[for="' + $(element).attr('id') + '"]').text();
+			var price = parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val());
 			if ($(element).is(".per_element")) {
-				otherParamsSectionPrice += parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val()) * parseInt($('input[name="' + $(element).attr('id') + '[count]"]').val());
-			} else {
-				otherParamsSectionPrice += parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val());
+				price *= parseInt($('input[name="' + $(element).attr('id') + '[count]"]').val());
 			}
+			otherParamsSectionPrice += price;
+			addTableCell(title, price);
 		});
-
-		if (otherParamsSectionPrice > 0) {
-			$('.accordion-heading a[href="#collapse_other_params"] .price').text(otherParamsSectionPrice + "руб.");
-		} else {
-			$('.accordion-heading a[href="#collapse_other_params"] .price').text("");
-		}
 
 		// speed optimization heading-----------------------------------------------------------------------------------
 		var speedOptimizationSectionPrice = 0;
 
-		$('#collapse_speed_optimization .control-group .controls .checkbox.inline input:checked').each(function(indx, element){
-			speedOptimizationSectionPrice += parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val());
+		$('#tab_html_speed_optimization .control-group .controls .checkbox.inline input:checked').each(function(indx, element){
+			var title = $('.control-label[for="' + $(element).attr('id') + '"]').text();
+			var price = parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val());
+			if ($(element).is(".per_element")) {
+				price *= parseInt($('input[name="' + $(element).attr('id') + '[count]"]').val());
+			}
+			speedOptimizationSectionPrice += price;
+			addTableCell(title, price);
 		});
-
-		if (speedOptimizationSectionPrice > 0) {
-			$('.accordion-heading a[href="#collapse_speed_optimization"] .price').text(speedOptimizationSectionPrice + "руб.");
-		} else {
-			$('.accordion-heading a[href="#collapse_speed_optimization"] .price').text("");
-		}
 
 		// total js heading---------------------------------------------------------------------------------------------
 		var totalJsSectionPrice = 0;
 
-		$('#collapse_total_js .control-group .controls .checkbox.inline input:checked').each(function(indx, element){
+		$('#tab_javascript_total_js .control-group .controls .checkbox.inline input:checked').each(function(indx, element){
+			var title = $('.control-label[for="' + $(element).attr('id') + '"]').text();
+			var price = parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val());
 			if ($(element).is(".per_element")) {
-				totalJsSectionPrice += parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val()) * parseInt($('input[name="' + $(element).attr('id') + '[count]"]').val());
-			} else {
-				totalJsSectionPrice += parseInt($('input[name="' + $(element).attr('id') + '[price]"]').val());
+				price *= parseInt($('input[name="' + $(element).attr('id') + '[count]"]').val());
 			}
+			totalJsSectionPrice += price;
+			addTableCell(title, price);
 		});
 
-		if (totalJsSectionPrice > 0) {
-			$('.accordion-heading a[href="#collapse_total_js"] .price').text(totalJsSectionPrice + "руб.");
+		totalSum = uniqueLayoutSectionPrice + innerLayoutSectionPrice + compatibilitySectionPrice + otherParamsSectionPrice + speedOptimizationSectionPrice + totalJsSectionPrice;
+		if (totalSum > 0) {
+			$('.span3 .total_sum').text(totalSum + 'руб.');
+			$('.span3 .table').append('<tr class="total_sum"><td>Итого</td><td class="price">' + totalSum + '</td></tr>');
 		} else {
-			$('.accordion-heading a[href="#collapse_total_js"] .price').text("");
+			$('.span3 .total_sum').text('');
 		}
 
-		totalSum = uniqueLayoutSectionPrice + innerLayoutTotalPrice + compatibilitySectionPrice + otherParamsSectionPrice + speedOptimizationSectionPrice + totalJsSectionPrice;
-		if (totalSum > 0) {
-			$('.total_sum').text('Итого: ' + totalSum + 'руб.');
+		if (totalSum > 0 && $('.span3.small').length == 1) {
+			$('div.total_sum').css('display', 'block');
+		} else {
+			$('div.total_sum').css('display', 'none');
+		}
+	}
+
+	function addTableCell(title, price) {
+		if (price !== 0 ) {
+			$('.span3 .table').append('<tr><td>' + title + '</td><td class="price">' + price + '</td></tr>');
 		}
 	}
 
@@ -203,6 +195,17 @@ $(document).ready(function(){
 			$(this).parents('.controls').find('.btn[name="remove_element"]').attr('disabled', 'disabled');
 		}
 		currentElement.remove();
+	});
+
+	$('.change-size').click(function(){
+		$(this).toggleClass("icon-resize-small icon-resize-full");
+		$(this).parents('.span3').toggleClass("small");
+		$(this).parents('.span3').prev().toggleClass("span6 span9");
+		if (totalSum > 0 && $('.span3.small').length == 1) {
+			$('div.total_sum').css('display', 'block');
+		} else {
+			$('div.total_sum').css('display', 'none');
+		}
 	});
 
 	// Сохранение товара

@@ -1,49 +1,76 @@
-.calculator .accordion-heading {
-	background-color: #fafafa;
-}
-.calculator .accordion-heading a {
-	font-size: 14px;
-	font-weight: bold;
-}
-.calculator .accordion-heading a .agenda {
-	color: #666;
-	margin-left: 16px;
-	font-size: 13px;
-}
-.calculator .accordion-heading a .price {
-	color: #333;
-	font-size: 15px;
-	margin-left: 16px;
-	text-align: right;
-	float: right;
-}
-.calculator .accordion-heading a:hover {
-	text-decoration: none;
-}
-
-.calculator .accordion-inner .control-group .controls label + .input-prepend,
-.calculator .accordion-inner .control-group .controls label + .input-append,
-.calculator .accordion-inner .control-group .controls .input-append + .input-prepend,
-.calculator .accordion-inner .control-group .controls .input-append + .input-append {
+.calculator .control-group .controls label + .input-prepend,
+.calculator .control-group .controls label + .input-append,
+.calculator .control-group .controls .input-append + .input-prepend,
+.calculator .control-group .controls .input-append + .input-append {
 	margin-left:  16px;
 }
-/*
-.calculator .controls {
-	margin-left: 260px;
+.span6 .calculator .control-group .controls label.radio + .input-prepend {
+	margin-left: 0;
+	margin-top: 8px;
 }
-*/
-.calculator .control-price {
-	float: left;
-	width: 106px;
-	padding-top: 5px;
-	margin-bottom: 5px;
-	margin-left: 5px;
-	font-size: 13px;
-	line-height: 18px;
-	text-align: center;
+
+.span3 .table tr:first-child td {
+	padding-top: 16px;
+	border-top: 0 none;
+}
+.table tr.total_sum td {
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: bold;
+}
+
+.span3.well {
+	padding: 8px 0;
+	width: 218px;
+	position: relative;
+	min-height: 26px;
+}
+.page-header {
+	padding-bottom: 8px;
+}
+.input-micro {
+	width: 40px;
+}
+.span3 .table {
+	margin-bottom: 0;
+}
+.span3 .table .price {
+	text-align: right;
+	font-weight: bold;
+	padding-left: 2px;
+	padding-right: 14px;
+}
+.span3.small {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: auto;
+	padding-left: 14px;
+	min-width: 26px;
+}
+.row {
+	position: relative;
+}
+
+.span3.small div.total_sum {
+	font-size: 16px;
+	line-height: 28px;
+	font-weight: bold;
+	margin-right: 28px;
+	padding-right: 10px;
+}
+.span3.small ul, .span3.small table tr td, .span3 div.total_sum {
 	display: none;
 }
 
-.total_sum {
-	text-align: right;
+.table-condensed th, .table-condensed td {
+	padding: 2px 2px 2px 14px;
+	line-height: 14px;
+	font-size: 11px;
+}
+.change-size {
+	cursor: pointer;
+	position: absolute;
+	right: 14px;
+	top: 14px;
 }
