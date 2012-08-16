@@ -1,0 +1,49 @@
+.calculator .accordion-heading {
+	background-color: #fafafa;
+}
+.calculator .accordion-heading a {
+	font-size: 14px;
+	font-weight: bold;
+}
+.calculator .accordion-heading a .agenda {
+	color: #666;
+	margin-left: 16px;
+	font-size: 13px;
+}
+.calculator .accordion-heading a .price {
+	color: #333;
+	font-size: 15px;
+	margin-left: 16px;
+	text-align: right;
+	float: right;
+}
+.calculator .accordion-heading a:hover {
+	text-decoration: none;
+}
+
+.calculator .accordion-inner .control-group .controls label + .input-prepend,
+.calculator .accordion-inner .control-group .controls label + .input-append,
+.calculator .accordion-inner .control-group .controls .input-append + .input-prepend,
+.calculator .accordion-inner .control-group .controls .input-append + .input-append {
+	margin-left:  16px;
+}
+/*
+.calculator .controls {
+	margin-left: 260px;
+}
+*/
+.calculator .control-price {
+	float: left;
+	width: 106px;
+	padding-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	font-size: 13px;
+	line-height: 18px;
+	text-align: center;
+	display: none;
+}
+
+.total_sum {
+	text-align: right;
+}

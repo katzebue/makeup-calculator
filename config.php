@@ -21,25 +21,25 @@ $calculatorParams = array(
 					),
 					'coefficient' => 'float'
 				),
+				// TODO: fancy stars
 				'quality' => array(
 					'title' => 'Качество макетов',
 					'type' => 'radio',
 					'values' => array(
 						'one_star' => array (
-							'title' => 'Низкое',
+							'title' => '<span rel="tooltip" title="Низкое"><i class="icon-star"></i><i class="icon-star-empty"></i><i class="icon-star-empty"></i></span>',
 							'price' => 300,
 						),
 						'two_stars' => array (
-							'title' => 'Среднее',
-							'price' => 200
+							'title' => '<span rel="tooltip" title="Удовлетвортительное"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-empty"></i></span>',
+							'price' => 0
 						),
 						'three_stars' => array (
-							'title' => 'Высокое',
-							'price' => 100
+							'title' => '<span rel="tooltip" title="Высокое"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></span>',
+							'price' => -100
 						),
 					),
-					'per_layout' => true,
-					'decrement' => true
+					'per_layout' => true
 				)
 			)
 		),
@@ -120,12 +120,6 @@ $calculatorParams = array(
 					'price' => 50,
 					'per_layout' => true
 				),
-				'opera' => array(
-					'title' => 'Opera',
-					'type' => 'checkbox',
-					'price' => 50,
-					'per_layout' => true
-				),
 				'no_graceful_degradation' => array(
 					'title' => 'Не использовать graceful degradation',
 					'type' => 'checkbox',
@@ -152,11 +146,11 @@ $calculatorParams = array(
 					'title' => 'Выравнивание по горизонтали',
 					'type' => 'radio',
 					'values' => array(
-						'left' => array (
-							'title' => 'По левому краю'
-						),
 						'center' => array (
 							'title' => 'По центру'
+						),
+						'left' => array (
+							'title' => 'По левому краю'
 						),
 						'right' => array (
 							'title' => 'По правому краю'
@@ -198,6 +192,7 @@ $calculatorParams = array(
 					'type' => 'checkbox',
 					'price' => 2000
 				),
+				// TODO: custom fonts
 				'non_web_fonts' => array(
 					'title' => 'Кастомные шрифты',
 					'type' => 'checkbox',
@@ -215,7 +210,7 @@ $calculatorParams = array(
 					'price' => 500,
 					'element' => 'text',
 					'element_ajax_add' => true,
-					'element_count' => true,
+					'element_count' => 1,
 					'element_count_editable' => true,
 					'per_element' => true
 				),
@@ -234,7 +229,7 @@ $calculatorParams = array(
 					'type' => 'radio',
 					'values' => array(
 						'our' => array (
-							'title' => 'Parametrika.custom'
+							'title' => 'Eric Meyer + HTML5'
 						),
 						'eric_meyer' => array (
 							'title' => 'Eric Meyer'
@@ -270,8 +265,77 @@ $calculatorParams = array(
 					'price' => 200
 				)
 			)
+		),
+		'total_js' => array(
+			'title' => 'JavaScript',
+			'params' => array(
+				'dropdown_menu' => array(
+					'title' => 'Выпадающее меню',
+					'type' => 'checkbox',
+					'price' => 500,
+					'editable' => true,
+					'element_count' => 1,
+					'element_count_editable' => true,
+					'per_element' => true
+				),
+				'slide_menu' => array(
+					'title' => 'Раскрывающееся меню',
+					'type' => 'checkbox',
+					'price' => 500,
+					'editable' => true,
+					'element_count' => 1,
+					'element_count_editable' => true,
+					'per_element' => true
+				),
+				'slider' => array(
+					'title' => 'Слайдер <span class="label">jCarousel</span> <span class="label">Cycle</span>',
+					'type' => 'checkbox',
+					'price' => 500,
+					'editable' => true,
+					'element_count' => 1,
+					'element_count_editable' => true,
+					'per_element' => true
+				),
+				'calendar' => array(
+					'title' => 'Календарь <span class="label">jQuery UI</span>',
+					'type' => 'checkbox',
+					'price' => 500,
+					'editable' => true,
+					'element_count' => 1,
+					'element_count_editable' => true,
+					'per_element' => true
+				),
+				'stylized_controls' => array(
+					'title' => 'Стилизованные контролы',
+					'type' => 'checkbox',
+					'price' => 500,
+					'editable' => true,
+					'element_count' => 1,
+					'element_count_editable' => true,
+					'per_element' => true
+				),
+				'tabs' => array(
+					'title' => 'Табы (панели с перещелкиванием)',
+					'type' => 'checkbox',
+					'price' => 500,
+					'editable' => true,
+					'element_count' => 1,
+					'element_count_editable' => true,
+					'per_element' => true
+				),
+				'popups' => array(
+					'title' => 'Всплывающие панели',
+					'type' => 'checkbox',
+					'price' => 500,
+					'editable' => true,
+					'element_count' => 1,
+					'element_count_editable' => true,
+					'per_element' => true
+				)
+			)
 		)
 	)
 );
+
 
 ?>
