@@ -1455,6 +1455,11 @@
 
       if ( $this.parent('li').hasClass('active') ) return
 
+	  if ($ul.length == 0) {
+		  $ul = $('ul > li > [href="'+ selector +'"]').parents('ul');
+	  }
+
+	console.log($ul);
       previous = $ul.find('.active a').last()[0]
 
       e = $.Event('show', {
@@ -1467,7 +1472,11 @@
 
       $target = $(selector)
 
-      this.activate($this.parent('li'), $ul)
+      if ($this.parent('li').length == 0) {
+        this.activate($ul.find('[href="'+ selector +'"]').parent('li'), $ul)
+      } else {
+	    this.activate($this.parent('li'), $ul)
+      }
       this.activate($target, $target.parent(), function () {
         $this.trigger({
           type: 'shown'

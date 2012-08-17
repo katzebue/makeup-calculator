@@ -63,10 +63,42 @@
 				<div class="span6">
 
 					<form class="form-horizontal calculator">
-						<div class="tab-content">
-						<? foreach ($calculatorParams as $calculatorTypeKey => $calculatorType) :?>
-							<? foreach ($calculatorType as $calculatorSectionKey => $calculatorSection) :?>
-								<div class="tab-pane<?if (reset($calculatorType) == $calculatorSection && reset($calculatorParams) == $calculatorType) :?> active<? endif ?>"
+						<div class="tab-content"><?
+
+						$firstCalculatorType = reset($calculatorParams);
+						$calculatorTypeKeys = array_keys($calculatorParams);
+
+						foreach ($calculatorParams as $calculatorTypeKey => $calculatorType) :
+							$calculatorParamsPosition = array_search($calculatorTypeKey, $calculatorTypeKeys);
+							if (isset($calculatorTypeKeys[$calculatorParamsPosition + 1])) :
+								$nextCalculatorTypeKey = $calculatorTypeKeys[$calculatorParamsPosition + 1];
+							else :
+								$nextCalculatorTypeKey = false;
+							endif;
+
+							if (isset($calculatorTypeKeys[$calculatorParamsPosition - 1])) :
+								$previousCalculatorTypeKey = $calculatorTypeKeys[$calculatorParamsPosition - 1];
+							else :
+								$previousCalculatorTypeKey = false;
+							endif;
+							$firstCalculatorSection = reset($calculatorType);
+							$calculatorSectionKeys = array_keys($calculatorType);
+
+							foreach ($calculatorType as $calculatorSectionKey => $calculatorSection) :
+								$calculatorTypePosition = array_search($calculatorSectionKey, $calculatorSectionKeys);
+								if (isset($calculatorSectionKeys[$calculatorTypePosition + 1])) :
+									$nextCalculatorSectionKey = $calculatorSectionKeys[$calculatorTypePosition + 1];
+								else :
+									$nextCalculatorSectionKey = false;
+								endif;
+
+								if (isset($calculatorSectionKeys[$calculatorTypePosition - 1])) :
+									$previousCalculatorSectionKey = $calculatorSectionKeys[$calculatorTypePosition - 1];
+								else :
+									$previousCalculatorSectionKey = false;
+								endif; ?>
+
+								<div class="tab-pane<?if ($firstCalculatorSection == $calculatorSection && $firstCalculatorType == $calculatorType) :?> active<? endif; ?>"
 								     id="tab_<?=$calculatorTypeKey?>_<?=$calculatorSectionKey?>">
 
 									<h2><?=$calculatorSection['title']?></h2>
@@ -177,12 +209,40 @@
 											</div>
 										</div>
 
-										<? endforeach ?>
-									</fieldset>
-								</div>
-							<? endforeach ?>
+										<? endforeach;
 
-						<? endforeach ?>
+										# get next button
+										$nextTabID = false;
+										if ($nextCalculatorSectionKey !== false) :
+											$nextTabID = "#tab_{$calculatorTypeKey}_{$nextCalculatorSectionKey}";
+										elseif ($nextCalculatorTypeKey !== false) :
+											$nextTabID = "#tab_{$nextCalculatorTypeKey}_" . key($calculatorParams[$nextCalculatorTypeKey]);
+										endif;
+
+										# get previous button
+										$previousTabID = false;
+										if ($previousCalculatorSectionKey !== false) :
+											$previousTabID = "#tab_{$calculatorTypeKey}_{$previousCalculatorSectionKey}";
+										elseif ($previousCalculatorTypeKey !== false) :
+											$previousTabID = "#tab_{$previousCalculatorTypeKey}_" . key($calculatorParams[$previousCalculatorTypeKey]);
+										endif;
+
+										?><div class="form-actions"><?
+
+											if ($nextTabID) : ?>
+												<a class="btn btn-primary" data-toggle="tab" href="<?=$nextTabID?>">Перейти к следующему шагу</a>
+											<? endif;
+
+											if ($previousTabID) : ?>
+												<a class="btn btn-small" data-toggle="tab" href="<?=$previousTabID?>">Назад</a>
+											<? endif;
+
+										?></div>
+									</fieldset>
+								</div><?
+							endforeach;
+
+						endforeach; ?>
 						</div>
 
 
